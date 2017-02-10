@@ -57,6 +57,10 @@ public class DemoHeapSort {
     }
     
     public static void heapIncreaseKey(int[] array, int i, int key){
+        if (key < array[i]) {
+            System.out.println("the key is small than origin");
+            return;
+        }
         array[i] = key;
         int parent = getParent(i);
         while (parent != Integer.MIN_VALUE && array[i] > array[parent]) {
