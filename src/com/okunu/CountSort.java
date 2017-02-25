@@ -63,7 +63,7 @@ public class CountSort {
 		for (int i = 1; i <= k; i++) {
 			arrayC[i] = arrayC[i] + arrayC[i-1];
 		}
-		
+		//注意b中存放的是数组a中的值。
 		for (int i = size-1; i >= 0; i--) {
 			value = getBitData(arrayA[i], index);
 			pos = arrayC[value];
