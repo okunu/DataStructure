@@ -1,4 +1,4 @@
-package com.okunu;
+package com.okunu.sort;
 
 public class DemoHeapSort {
 
@@ -101,11 +101,11 @@ public class DemoHeapSort {
         
 //        System.out.println(heapExtractMax(array));
         
-        heapIncreaseKey(array, array.length - 1, 500);
+//        heapIncreaseKey(array, array.length - 1, 500);
+        
+        heapSort(array);
         
         print(array);
-//        heapSort(array);
-//        print(array);
     }
 
 }

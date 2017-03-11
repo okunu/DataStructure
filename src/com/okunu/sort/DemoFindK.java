@@ -1,4 +1,4 @@
-package com.okunu;
+package com.okunu.sort;
 
 public class DemoFindK {
 
