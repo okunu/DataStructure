@@ -38,8 +38,16 @@ public class Node {
         mLeftChild = node;
     }
     
+    public void setRightChild(Node node){
+        mRightChild = node;
+    }
+    
     @Override
     public String toString() {
+        return mValue;
+    }
+    
+    public String getValue(){
         return mValue;
     }
 
