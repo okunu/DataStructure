@@ -120,6 +120,7 @@ public class SearchTree {
             return treeMin(x.right);
         }
         SearchNode y = x.parent;
+        //当父节点是左子节点时，查找完成
         while (y != null && y.right == x) {
             x = y;
             y = y.parent;
