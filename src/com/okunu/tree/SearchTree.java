@@ -135,6 +135,7 @@ public class SearchTree {
         return x.parent;
     }
     
+    //使用v代替u
     public void swap(SearchNode u, SearchNode v){
         if (u.parent == null) {
             mRoot = v;
@@ -164,6 +165,8 @@ public class SearchTree {
             y = followUp(z);
             if (y.parent != z) {
                 //本例中，将y的父节点和y的关系切断
+            	//为啥只处理y的右子节点，因为y不可能有左节点了，因为y是z的后继，就是比z大的最小值了，
+            	//如果y还有左子节点，那么y还有比它更小的值，那么y就不是z的后继了
                 swap(y, y.right);
                 //设置y的右节点为z的右节点
                 y.right = z.right;
@@ -179,7 +182,7 @@ public class SearchTree {
     
     public static void main(String[] args) {
         SearchTree tree = new SearchTree();
-        int[] array = {4, 5, 2, 1, 0, 9, 3, 7, 6, 8, 11, 10, 12};
+        int[] array = {4, 5, 2, 1, 0, 9, 3, 7, 6, 8, 12, 10, 13, 11};
         for (int i = 0; i < array.length; i++) {
             tree.insert(tree, array[i]);
         }
@@ -194,6 +197,8 @@ public class SearchTree {
         tree.middlePrint(tree.mRoot);
         System.out.println();
         temp = tree.search2(tree.mRoot, 10);
+        System.out.println(temp);
+        temp = tree.search2(tree.mRoot, 11);
         System.out.println(temp);
         
         
