@@ -119,15 +119,15 @@ public class RBTree {
 					y.color = BLACK;
 					z.parent.parent.color = RED;
 					z = z.parent.parent;
-				}else if (z == z.parent.right) {
+				}else if (z == z.parent.left) {
 					//叔叔节点为黑，且z是z的父亲的右子节点
 					z = z.parent;
-					leftRotate(z);
+					rightRotate(z);
 				}else {
 					//叔叔节点为黑，且z是z的父亲的左子节点
 					z.parent.color = BLACK;
 					z.parent.parent.color = RED;
-					rightRotate(z.parent.parent);
+					leftRotate(z.parent.parent);
 				}
 			}
 		}
@@ -138,11 +138,13 @@ public class RBTree {
 		if (u.parent == null) {
 			mRoot = v;
 		}else if (u == u.parent.left) {
-			v = u.parent.left;
+		    u.parent.left = v ;
 		}else {
-			v = u.parent.right;
+		    u.parent.right = v;
 		}
-		v.parent = u.parent;
+		if (v != null) {
+		    v.parent = u.parent;
+        }
 	}
 	
 	public RBNode treeMin(RBNode node){
@@ -178,9 +180,9 @@ public class RBTree {
 			y.left = z.left;
 			y.left.parent = y;
 			y.color = z.color;
-			if (yOriginColor == BLACK) {
-				rb_delete_fixup(x);
-			}
+		}
+		if (yOriginColor == BLACK) {
+		    rb_delete_fixup(x);
 		}
 	}
 	
@@ -190,6 +192,9 @@ public class RBTree {
 	//如果x自身为黑，额外也是黑，那么规则5则被破坏
 	//现在则要想办法将x弄成红色+黑色的模式，将多余黑色向根节点移动
 	public void rb_delete_fixup(RBNode x){
+	    if (x == null) {
+            return;
+        }
 		RBNode w = null;
 		while (x != mRoot && x.color == BLACK) {
 			if (x == x.parent.left) {
@@ -199,14 +204,15 @@ public class RBTree {
 					x.parent.color = RED;
 					leftRotate(x.parent);
 					w = x.parent.right;
-				}else if (w.left.color == BLACK && w.right.color == BLACK) {
+				}else if ((w.left == null || w.left.color == BLACK)
+				        && (w.right == null || w.right.color == BLACK)) {
 					w.color = RED;
 					x = x.parent;
-				}else if (w.right.color == BLACK && w.left.color == RED) {
+				}else if (w.right == null || w.right.color == BLACK) {
 					w.left.color = BLACK;
 					w.color = RED;
 					rightRotate(w);
-					x = x.parent.right;
+					w = x.parent.right;
 				}else {
 					w.color = x.parent.color;
 					x.parent.color = BLACK;
@@ -219,21 +225,22 @@ public class RBTree {
 				if (w.color == RED) {
 					w.color = BLACK;
 					x.parent.color = RED;
-					leftRotate(x.parent);
-					w = x.parent.right;
-				}else if (w.left.color == BLACK && w.right.color == BLACK) {
+					rightRotate(x.parent);
+					w = x.parent.left;
+				}else if ((w.left == null || w.left.color == BLACK) 
+				        && (w.right == null || w.right.color == BLACK)) {
 					w.color = RED;
 					x = x.parent;
-				}else if (w.right.color == BLACK) {
-					w.left.color = BLACK;
+				}else if (w.left == null || w.left.color == BLACK) {
+					w.right.color = BLACK;
 					w.color = RED;
-					rightRotate(w);
-					x = x.parent.right;
+					leftRotate(w);
+					w = x.parent.left;
 				}else {
 					w.color = x.parent.color;
 					x.parent.color = BLACK;
-					w.right.color = BLACK;
-					leftRotate(x.parent);
+					w.left.color = BLACK;
+					rightRotate(x.parent);
 					x = mRoot;
 				}
 			}
@@ -245,6 +252,22 @@ public class RBTree {
 	public static void main(String[] args) {
 //		test_left_right_rotate();
 		test_insert();
+//	    test_delete();
+	}
+	
+	public static void test_delete(){
+	    RBTree tree = new RBTree();
+        int[] array = new int[]{11,2,14,15,1,7,5,8,4};
+        for (int i = 0; i < array.length; i++) {
+            tree.rb_insert(new RBNode(array[i]));
+        }
+//        tree.middlePrint(tree.mRoot);
+        System.out.println("  mroot = " + tree.mRoot);
+        RBNode temp = tree.search(11);
+        tree.rb_delete(temp);
+        System.out.println(" after delete mroot = " + tree.mRoot);
+        System.out.println("------------------------------");
+        tree.middlePrint(tree.mRoot);
 	}
 	
 	public static void test_insert(){
