@@ -8,7 +8,7 @@ public class Select {
      * max = Math.max(max, c[i][k] + c[k][j] + 1);
      * 类似钢条切割，一定是中间某点分割，两边都是最优选
      */
-    public static int recursion(){
+    public static int dpSelect(){
         int[] st = {1,3,0,5,3,5,6,8,8,2,12}; 
         int[] ft = {4,5,6,7,8,9,10,11,12,13,14};
         int length = st.length;
@@ -27,6 +27,11 @@ public class Select {
                             ret[i][j] = k;
                         }
                     }
+                    /*
+                     * max等于0，即没有合适的k。
+                     * 如果集合的首位和末位时间合适，所以会有两个活动
+                     * 如果集合的首位和末位时间不合适，所以会有一个活动
+                     */
                     if (max == 0) {
                         if (st[j] >= ft[i]) {
                             max += 2;
@@ -81,7 +86,7 @@ public class Select {
     }
     
     public static void main(String[] args) {
-        //recursion();
+        //dpSelect();
         greedSelect();
     }
 }
