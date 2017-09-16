@@ -42,17 +42,18 @@ public class Graph {
             temp.next = arc;
         }
         if (mType == GRAPH_TYPE.undigraph) {
-            arc.vertex = v;
-            arc.weight = weight;
-            arc.next = null;
+        	Arc arc2 = new Arc();
+        	arc2.vertex = v;
+        	arc2.weight = weight;
+            arc2.next = null;
             if (u.firstArc == null) {
-                u.firstArc = arc;
+                u.firstArc = arc2;
             }else {
                 Arc temp = u.firstArc;
                 while (temp.next != null) {
                     temp = temp.next;
                 }
-                temp.next = arc;
+                temp.next = arc2;
             }
         }
     }
@@ -105,6 +106,12 @@ public class Graph {
     }
     
     int time = 0;
+    /*
+     * 深度优先算法，下面的深度优先算法是最正确的，以栈来实现深度优先算法有可能有问题
+     * 下面的计算方法最容易理解，访问完自己后立即访问自己的非访问后续结点
+     * 同时深度优先算法，可以计算每个结点访问顺序，最终实现拓扑排序。
+     * 即f最大的，放在前面
+     */
     public void dfs(){
         for (Vertex vertex : mList) {
             vertex.color = COLOR.WHITE;
@@ -144,6 +151,11 @@ public class Graph {
         vertex.color = COLOR.BLACK;
     }
     
+    /*
+     * 广度优先算法
+     * 广度优先算法可以计算出到遍历起点的最短路径，因为最短路径一定是此顶点的前驱距离+1得到的
+     * 有权值的后续讨论，如果无权图这个结论是对的
+     */
     public void bfs(Vertex vertex){
         if (vertex == null) {
             return;
@@ -151,6 +163,7 @@ public class Graph {
         for (Vertex v : mList) {
             v.color = COLOR.WHITE;
         }
+        int dis = 0;
         int index = mList.indexOf(vertex);
         if (index == -1) {
             System.out.println("error vertex");
@@ -158,8 +171,9 @@ public class Graph {
         }
         Queue<Vertex> queue = new LinkedBlockingDeque<Vertex>();
         queue.add(vertex);
-        System.out.println(vertex);
         vertex.color = COLOR.GRAY;
+        vertex.d = dis;
+        System.out.println(vertex);
         Arc arc = null;
         Vertex temp = null;
         while (!queue.isEmpty()) {
@@ -167,8 +181,9 @@ public class Graph {
             arc = temp.firstArc;
             while (arc != null) {
                 if (arc.vertex.color == COLOR.WHITE) {
+                	arc.vertex.color = COLOR.GRAY;
+                	arc.vertex.d = temp.d + 1;
                     System.out.println(arc.vertex);
-                    arc.vertex.color = COLOR.GRAY;
                     queue.add(arc.vertex);
                     break;
                 }
@@ -182,8 +197,8 @@ public class Graph {
                 for (Vertex vertex2 : mList) {
                     if (vertex2.color == COLOR.WHITE) {
                         queue.add(vertex2);
-                        System.out.println(vertex2);
                         vertex2.color = COLOR.GRAY;
+                        System.out.println(vertex2);
                         break;
                     }
                 }
@@ -200,6 +215,6 @@ public class Graph {
         
         Graph graph = new Graph(GRAPH_TYPE.undigraph);
         graph.initUndigraph();
-        graph.bfs(graph.getVertex(1));
+        graph.bfs(graph.getVertex(2));
     }
 }
