@@ -35,7 +35,7 @@ public class QuickSort {
         int i = p;
         int j = r;
         while (i < j) {
-            while (array[j] > k) {
+            while (i < j && array[j] > k) {
                 j--;
             }
             if (i < j) {
@@ -43,7 +43,7 @@ public class QuickSort {
                 i ++;
             }
             
-            while(array[i] < k){
+            while(i < j && array[i] < k){
                 i++;
             }
             if (i < j) {
