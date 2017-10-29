@@ -8,6 +8,9 @@ public class Vertex {
     public int f;
     public COLOR color;
     public Arc firstArc;
+    //为bellman ford算法添加的前驱节点
+    public Vertex pre;
+    
     
     public Vertex(Object info){
         this.info = info;
