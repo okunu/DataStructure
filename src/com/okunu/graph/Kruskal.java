@@ -7,6 +7,9 @@ import java.util.List;
 import com.okunu.graph.Graph.GRAPH_TYPE;
 import com.okunu.graph.Vertex.COLOR;
 
+/*
+ * Kruskal 最小生成树
+ */
 public class Kruskal {
 
 	public MatrixGraph initUndigraph(){

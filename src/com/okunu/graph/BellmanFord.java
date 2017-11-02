@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.okunu.graph.Graph.GRAPH_TYPE;
 
+/*
+ * 单源最短路径bellman ford算法，计算权重可为负有环的算法
+ */
 public class BellmanFord {
 
 	public MatrixGraph initDigraph(){
@@ -81,6 +84,8 @@ public class BellmanFord {
 			}
 		}
 		//每条边都要循环 edgeList.size()-1 次，才能计算出正确答案。
+		//因为s到最远的端点最多要经过 edgeList.size()-1 条边，如果松驰次数少了
+		//某个前顶点的d值之前改变后，就不会得到反馈。
 		for (int i = 1; i < edgeList.size(); i++) {
 			for (int j = 0; j < edgeList.size(); j++) {
 				edge = edgeList.get(j);

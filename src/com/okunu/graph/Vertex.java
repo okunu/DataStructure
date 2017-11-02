@@ -1,6 +1,6 @@
 package com.okunu.graph;
 
-public class Vertex {
+public class Vertex implements Comparable<Vertex>{
     public static enum COLOR{WHITE, BLACK, GRAY};
     
     public Object info;
@@ -8,7 +8,7 @@ public class Vertex {
     public int f;
     public COLOR color;
     public Arc firstArc;
-    //为bellman ford算法添加的前驱节点
+    //为bellman ford添加的前驱参数
     public Vertex pre;
     
     
@@ -32,6 +32,16 @@ public class Vertex {
     @Override
     public String toString() {
         return "name = " + info.toString() + "  d = " + d + "  f = " + f;
+    }
+
+    @Override
+    public int compareTo(Vertex arg0) {
+        if (d > arg0.d) {
+            return 1;
+        }else if (d < arg0.d) {
+            return -1;
+        }
+        return 0;
     };
 
     
