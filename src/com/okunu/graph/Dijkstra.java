@@ -59,7 +59,6 @@ public class Dijkstra {
         MatrixGraph graph = initDigraph();
         Vertex s = graph.mList.get(0);
         init_single_source(graph, s);
-        
         Vertex[] datas = new Vertex[graph.mList.size()];
         for (int i = 0; i < graph.mList.size(); i++) {
             datas[i] = graph.mList.get(i);
@@ -74,12 +73,13 @@ public class Dijkstra {
                 edge = graph.mEdges[index][i];
                 if (edge != null) {
                     relax(edge.v1, edge.v2, edge.weight);
-                    queue.getIndex(edge.v2);
+                    //上一步进行了松驰操作，所以此处需要重新检测最小优先队列的属性
+                    //以维持queue仍是最小优先队列
+                    //此算法的关键就是正确设计最小优先队列
                     queue.checkMinHeap();
                 }
             }
         }
-        
       for (Vertex vertex : graph.mList) {
           System.out.println(vertex);
       }

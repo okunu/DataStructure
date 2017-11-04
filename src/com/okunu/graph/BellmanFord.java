@@ -64,17 +64,11 @@ public class BellmanFord {
 		MatrixGraph graph = initDigraph();
 		Vertex s = graph.mList.get(0);
 		init_single_source(graph, s);
-		
 		List<Vertex> list = graph.mList;
-//		for (Vertex vertex : list) {
-//			System.out.println(vertex);
-//		}
-		
 		MatrixEdge[][] edges = graph.mEdges;
 		List<MatrixEdge> edgeList = new ArrayList<>();
 		int arrayLength = graph.maxLength;
 		MatrixEdge edge = null;
-		
 		for (int i = 0; i < arrayLength; i++) {
 			for (int j = 0; j < arrayLength; j++) {
 				edge = edges[i][j];
@@ -92,26 +86,18 @@ public class BellmanFord {
 				relax(edge.v1, edge.v2, edge.weight);
 			}
 		}
-		
-//		for (Vertex vertex : list) {
-//			System.out.println(vertex);
-//		}
-		
-		for (int i = 0; i < arrayLength; i++) {
-			for (int j = 0; j < arrayLength; j++) {
-				edge = edges[i][j];
-				if (edge != null) {
-					if (edge.v2.d > edge.v1.d + edge.weight) {
-						return false;
-					}
-				}
+		//第i个点经过i-1次数松驰就能得到最短距离
+		//最远的点经过 edgeList.size()-1 次松驰也会得到最短距离。
+		//所以，再次遍历，如果还存在能松驰的情况，那一定是有环路，这样的情况不存在最短距离。
+		for (int i = 0; i < edgeList.size(); i++) {
+			edge = edgeList.get(i);
+			if (edge.v2.d > edge.v1.d + edge.weight) {
+				return false;
 			}
 		}
-		
 		for (Vertex vertex : list) {
 			System.out.println(vertex);
 		}
-		
 		return true;
 	}
 	
