@@ -21,8 +21,15 @@ public class MatrixGraph {
     	mEdges = new MatrixEdge[maxLength][maxLength];
     }
     
+    public MatrixGraph(){
+    }
+    
     public void addVertex(Vertex vertex){
     	mList.add(vertex);
+    }
+    
+    public void removeVertex(Vertex vertex){
+        mList.remove(vertex);
     }
     
     public void addEdge(Vertex v1, Vertex v2, int weight){
